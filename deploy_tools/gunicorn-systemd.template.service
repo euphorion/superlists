@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn server for superlists-staging-server
+
+[Service]
+Restart=on-failure
+User=albotret
+WorkingDirectory=/home/albotret/sites/185.247.118.195/source
+ExecStart=/home/albotret/sites/185.247.118.195/virtualenv/bin/gunicorn \
+        --bind unix:/tmp/185.247.118.195.socket \
+        superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
