@@ -33,12 +33,18 @@ def _update_virtualenv(source_folder):
     virtualenv_folder = source_folder + '/../virtualenv'
     if not exists(virtualenv_folder):
         run(f'python3.9 -m venv {virtualenv_folder}')
-    run(f'{virtualenv_folder}/bin/pip install -r requirements.txt')
+    run(f'{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt')
 
 def _update_static_files(source_folder):
     run(
         f'cd {source_folder}'
         ' && ../virtualenv/bin/python manage.py collectstatic --noinput')
+
+def _update_database(source_folder):
+    run(
+        f'cd {source_folder}'
+        ' && ../virtualenv/bin/python manage.py migrate --noinput'
+    )
 
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
